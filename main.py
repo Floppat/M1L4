@@ -1,5 +1,5 @@
 import telebot 
-from config import token
+from M1L4.pokemons.M1L4.config import token
 
 from logic import Pokemon
 

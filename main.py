@@ -23,5 +23,12 @@ def stats(message):
         bot.reply_to(message, "Сначала создай себе покемона")
     else:
         bot.reply_to(message, db["message.from_user.username"].info())
+
+@bot.message_handler(commands=['battle'])
+def deathmatch(message):
+    if message.from_user.username not in Pokemon.pokemons.keys():
+        bot.reply_to(message, "Сначала создай себе покемона")
+    else:
+        bot.reply_to(message, db["message.from_user.username"].battle())
 bot.infinity_polling(none_stop=True)
 

@@ -12,7 +12,7 @@ class Pokemon:
         self.img = self.get_img()
         self.name = self.get_name()
         self.health = randint(50,200)
-        self.attack = 50 - (self.health/5)
+        self.attack = round(50 - (self.health/5),0)
 
 
         Pokemon.pokemons[pokemon_trainer] = self
@@ -23,9 +23,9 @@ class Pokemon:
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            return (data['sprites']['back_default'])
+            return (data['sprites']['front_default'])
         else:
-            pass
+            return "ошибка получения изображения"
     
     # Метод для получения имени покемона через API
     def get_name(self):
@@ -41,12 +41,22 @@ class Pokemon:
     # Метод класса для получения информации
     def info(self):
         return f'''Имя твоего покемона: {self.name}\n
-Здоровье твоего покемона:{self.health}
-Сила твоего покемона{self.attack}'''
+Здоровье твоего покемона: {self.health}
+Сила твоего покемона: {self.attack}'''
 
     # Метод класса для получения картинки покемона
     def show_img(self):
         return self.img
 
-
-
+    def battle(self):
+        enemy_health = randint(50,150)
+        en_h = enemy_health
+        enemy_attack = round(35 - (enemy_health/5),0)
+        en_a = enemy_attack
+        while self.health > 0:
+            self.health -=enemy_attack
+            enemy_health -= self.attack
+            if enemy_health <= 0 and self.health > 0:
+                return (f'вы победили, ваш враг был: Здоровье:{en_h} Сила:{en_a}, у вас осталось {self.health} здоровья')
+        return (f'''вы проиграли, ваш враг был: Здоровье:{en_h} Сила:{en_a}. 
+то ли игра жестока то ли разраб ленив но воскресить его нельзя, игра окончена.''')
